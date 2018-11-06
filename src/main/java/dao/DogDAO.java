@@ -203,5 +203,30 @@ public class DogDAO implements DogRepository {
         return owners;
     }
 
+    @Override
+    public Dog findEldestDog() throws SQLException {
+
+        Connection conn = Connector.getConnect(URL_REMOTE, "devlab", "devlab");
+
+        String query = "select * from dogs where age = (select max(age) from dogs)";
+
+        PreparedStatement preparedStatement = conn.prepareStatement(query);
+
+        ResultSet resultSet = preparedStatement.executeQuery();
+
+        Dog dog = new Dog();
+
+        while (resultSet.next()) {
+
+            dog.setId(resultSet.getInt(1));
+            dog.setName(resultSet.getString(2));
+            dog.setAge(resultSet.getInt(3));
+        }
+
+        conn.close();
+
+        return dog;
+    }
+
 }
 

@@ -20,5 +20,7 @@ public interface DogRepository {
 
      List<OwnerDto> getDogsWIthOwners() throws SQLException;
 
+     Dog findEldestDog() throws SQLException;
+
 
 }
